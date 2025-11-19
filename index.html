@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cahit Sıtkı Tarancı - Otuz Beş Yaş Hikayesi</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Custom Tailwind Configuration for Fonts and Colors -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'taranci-bg': '#0f172a', // Koyu Lacivert (Slate-900)
+                        'taranci-primary': '#facc15', // Altın Sarısı (Amber-400)
+                        'taranci-secondary': '#64748b', // Soluk Gri (Slate-500)
+                        'taranci-accent': '#ef4444', // Koyu Bordo/Kırmızı (Red-500)
+                    },
+                    fontFamily: {
+                        // Başlıklar için şık bir serif font
+                        'serif-elegant': ['Playfair Display', 'Georgia', 'serif'],
+                        // Gövde metni için modern sans-serif
+                        'sans-modern': ['Inter', 'sans-serif'],
+                    },
+                    keyframes: {
+                        fadeInDown: {
+                            '0%': { opacity: '0', transform: 'translateY(-20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        }
+                    },
+                    animation: {
+                        'fade-in-down': 'fadeInDown 1s ease-out',
+                        'fade-in': 'fadeIn 1.5s ease-out',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom styles for background and effects */
+        body {
+            background-color: theme('colors.taranci-bg');
+            font-family: theme('fontFamily.sans-modern');
+            color: white;
+        }
+
+        /* Parallax effect for the hero image */
+        .hero-bg {
+            /* Replace with a suitable image URL for Cahit Sıtkı */
+            background-image: url('https://placehold.co/1920x1080/0f172a/94a3b8?text=Cahit+S%C4%B1tk%C4%B1+Portresi');
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            height: 100vh;
+            position: relative;
+        }
+
+        /* Style for the overlay to enhance readability */
+        .hero-overlay {
+            background-color: rgba(15, 23, 42, 0.6); /* Koyu Lacivert Opaklık */
+            backdrop-filter: blur(1px);
+        }
+
+        /* Custom scrollbar style for elegance */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: theme('colors.taranci-secondary');
+            border-radius: 10px;
+        }
+
+        /* Style for the poem modal */
+        .modal {
+            transition: opacity 0.3s ease-out, visibility 0.3s ease-out;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Parallax Hero Section: "Dur Gitme!" -->
+    <header class="hero-bg flex items-center justify-center text-center">
+        <div class="hero-overlay absolute inset-0"></div>
+        <div class="z-10 p-8 max-w-4xl mx-auto animate-fade-in-down">
+            <h1 class="text-7xl md:text-8xl font-serif-elegant font-bold mb-4 text-white drop-shadow-lg leading-tight">
+                Cahit Sıtkı Tarancı
+            </h1>
+            <h2 class="text-3xl md:text-4xl text-taranci-primary font-serif-elegant italic mb-8">
+                “Yaş otuz beş! Yolun yarısı eder.”
+            </h2>
+            <p class="text-xl text-taranci-secondary mb-10">
+                Türk Şiirinin Zaman ve Ölüm Temalı Derin Sesi
+            </p>
+            <button onclick="scrollToSection('poem-atlas')"
+                class="bg-taranci-accent hover:bg-red-600 text-white font-bold py-3 px-8 rounded-full shadow-2xl transition duration-300 ease-in-out transform hover:scale-105">
+                Şiirlere Yolculuk
+            </button>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-20">
+
+        <!-- Section 2: Biyografi - "Memleket İsterim..." -->
+        <section id="biography" class="mb-24">
+            <h3 class="text-5xl font-serif-elegant font-light text-center mb-16 text-taranci-primary animate-fade-in">
+                Bir Ömür Hikayesi
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Kart 1: Diyarbakır ve İlk Dizeler -->
+                <div class="bg-slate-800 p-8 rounded-xl shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-1">
+                    <i class="fas fa-home text-4xl text-taranci-accent mb-4"></i>
+                    <h4 class="text-2xl font-serif-elegant font-semibold mb-3">Çocukluk ve Diyarbakır</h4>
+                    <p class="text-taranci-secondary">1910 yılında Diyarbakır'da doğdu. İlk şiirlerinde dahi hayatın faniliği ve güzellikleri temalarını işledi. Gençlik dönemi mektupları, edebi dünyasının temellerini oluşturdu.</p>
+                </div>
+
+                <!-- Kart 2: Paris Yılları ve Sanat -->
+                <div class="bg-slate-800 p-8 rounded-xl shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-1">
+                    <i class="fas fa-palette text-4xl text-taranci-accent mb-4"></i>
+                    <h4 class="text-2xl font-serif-elegant font-semibold mb-3">Paris'in Etkisi</h4>
+                    <p class="text-taranci-secondary">Siyasal Bilgiler okumak için gittiği Paris, ona Batı şiirini, özellikle Baudelaire ve Verlaine'i tanıma fırsatı verdi. Bu dönem, şiirine modern bir melankoli kattı.</p>
+                </div>
+
+                <!-- Kart 3: Otuz Beş Yaş ve Edebi Doruk -->
+                <div class="bg-slate-800 p-8 rounded-xl shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-1">
+                    <i class="fas fa-hourglass-half text-4xl text-taranci-accent mb-4"></i>
+                    <h4 class="text-2xl font-serif-elegant font-semibold mb-3">Doruk Noktası</h4>
+                    <p class="text-taranci-secondary">1946'da yayımlanan "Otuz Beş Yaş" şiiriyle adını Türk edebiyat tarihine altın harflerle yazdırdı. Bu eser, yaşam-ölüm kaygısının en çarpıcı ifadesidir.</p>
+                </div>
+            </div>
+            
+            <!-- Öne Çıkan Not -->
+            <div class="mt-16 bg-taranci-accent/10 border-l-4 border-taranci-accent p-6 rounded-lg shadow-inner animate-fade-in">
+                <blockquote class="text-xl italic text-taranci-secondary">
+                    “Ne doğan güne hükmüm geçer, ne halden anlayan bulunur.”
+                </blockquote>
+                <p class="text-right text-sm text-taranci-secondary mt-2">- Cahit Sıtkı Tarancı</p>
+            </div>
+        </section>
+
+        <!-- Section 3: Şiir Atlası - "Desem ki..." -->
+        <section id="poem-atlas" class="mb-24 pt-16">
+            <h3 class="text-5xl font-serif-elegant font-light text-center mb-16 text-taranci-primary">
+                Şiir Atlası
+            </h3>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <!-- Şiir Kartı 1 -->
+                <button onclick="openPoemModal('Otuz Beş Yaş', poemData['Otuz Beş Yaş'])" class="poem-card">
+                    <div class="bg-slate-700 p-6 rounded-xl shadow-lg h-full flex flex-col items-center justify-center transition duration-300 hover:bg-slate-600 group">
+                        <i class="fas fa-calendar-day text-5xl text-taranci-primary mb-4 group-hover:text-white transition"></i>
+                        <h4 class="text-xl font-serif-elegant font-semibold text-center group-hover:underline">Otuz Beş Yaş</h4>
+                        <p class="text-sm text-taranci-secondary mt-1 hidden group-hover:block">Yolun yarısı eder.</p>
+                    </div>
+                </button>
+                
+                <!-- Şiir Kartı 2 -->
+                <button onclick="openPoemModal('Desem ki', poemData['Desem ki'])" class="poem-card">
+                    <div class="bg-slate-700 p-6 rounded-xl shadow-lg h-full flex flex-col items-center justify-center transition duration-300 hover:bg-slate-600 group">
+                        <i class="fas fa-sun text-5xl text-taranci-primary mb-4 group-hover:text-white transition"></i>
+                        <h4 class="text-xl font-serif-elegant font-semibold text-center group-hover:underline">Desem ki</h4>
+                        <p class="text-sm text-taranci-secondary mt-1 hidden group-hover:block">Seninle geçen ömrüm.</p>
+                    </div>
+                </button>
+
+                <!-- Şiir Kartı 3 -->
+                <button onclick="openPoemModal('Memleket İsterim', poemData['Memleket İsterim'])" class="poem-card">
+                    <div class="bg-slate-700 p-6 rounded-xl shadow-lg h-full flex flex-col items-center justify-center transition duration-300 hover:bg-slate-600 group">
+                        <i class="fas fa-mountain text-5xl text-taranci-primary mb-4 group-hover:text-white transition"></i>
+                        <h4 class="text-xl font-serif-elegant font-semibold text-center group-hover:underline">Memleket İsterim</h4>
+                        <p class="text-sm text-taranci-secondary mt-1 hidden group-hover:block">Ne başta dert, ne gönülde hasret.</p>
+                    </div>
+                </button>
+
+                <!-- Şiir Kartı 4 -->
+                <button onclick="openPoemModal('Abbas', poemData['Abbas'])" class="poem-card">
+                    <div class="bg-slate-700 p-6 rounded-xl shadow-lg h-full flex flex-col items-center justify-center transition duration-300 hover:bg-slate-600 group">
+                        <i class="fas fa-train text-5xl text-taranci-primary mb-4 group-hover:text-white transition"></i>
+                        <h4 class="text-xl font-serif-elegant font-semibold text-center group-hover:underline">Abbas</h4>
+                        <p class="text-sm text-taranci-secondary mt-1 hidden group-hover:block">Geldi çattı, kapımıza dayandı.</p>
+                    </div>
+                </button>
+            </div>
+        </section>
+
+        <!-- Section 4: Etkileyenler ve Etkilenenler: "Sanat Kaynaşması" -->
+        <section id="influence" class="mb-24 pt-16">
+            <h3 class="text-5xl font-serif-elegant font-light text-center mb-16 text-taranci-primary">
+                Edebiyat Çevresi: Ziya'ya Mektuplar
+            </h3>
+            <div class="bg-slate-800 p-10 rounded-xl shadow-2xl flex flex-col lg:flex-row items-center space-y-8 lg:space-y-0 lg:space-x-12">
+                <!-- Portre 1 -->
+                <div class="flex-shrink-0 text-center">
+                    <!-- Placeholder image for Cahit Sıtkı -->
+                    <img src="https://placehold.co/150x150/0f172a/facc15?text=CST" alt="Cahit Sıtkı Tarancı" class="w-36 h-36 rounded-full mx-auto border-4 border-taranci-primary/50 object-cover mb-3">
+                    <p class="text-xl font-serif-elegant font-semibold">Cahit Sıtkı</p>
+                </div>
+
+                <!-- İlişki Metni -->
+                <div class="flex-grow text-center lg:text-left">
+                    <i class="fas fa-link text-4xl text-taranci-accent mb-4 lg:mb-0"></i>
+                    <p class="text-taranci-secondary text-lg">
+                        Cahit Sıtkı'nın edebi hayatının en önemli köşe taşlarından biri, yakın dostu **Ziya Osman Saba** ile olan mektuplaşmalarıdır. Bu mektuplar, iki şairin ortak hüznünü, sanata bakışını ve dönemin edebiyat ortamını yansıtan değerli birer kaynaktır. Onların dünyası, aynı sadeliğin ve derinliğin izlerini taşır.
+                    </p>
+                </div>
+
+                <!-- Portre 2 -->
+                <div class="flex-shrink-0 text-center">
+                    <!-- Placeholder image for Ziya Osman Saba -->
+                    <img src="https://placehold.co/150x150/0f172a/facc15?text=ZOS" alt="Ziya Osman Saba" class="w-36 h-36 rounded-full mx-auto border-4 border-taranci-primary/50 object-cover mb-3">
+                    <p class="text-xl font-serif-elegant font-semibold">Ziya Osman Saba</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Sesli Köşe - "Ömrümde Sükût" (Placeholder) -->
+        <section id="audio-corner" class="pt-16">
+            <h3 class="text-5xl font-serif-elegant font-light text-center mb-16 text-taranci-primary">
+                Şiirin Kendi Sesiyle
+            </h3>
+            <div class="bg-slate-800 p-10 rounded-xl shadow-2xl max-w-2xl mx-auto">
+                <div class="flex items-center space-x-4 mb-6">
+                    <i class="fas fa-microphone-alt text-4xl text-taranci-accent"></i>
+                    <h4 class="text-3xl font-serif-elegant font-semibold">Otuz Beş Yaş Seslendirmesi</h4>
+                </div>
+                <div class="bg-slate-700 p-4 rounded-lg">
+                    <p class="text-taranci-secondary mb-3">Bu alanda şairin ünlü eserlerinin ses kayıtları yer alacaktır. (Harici link kısıtlamaları nedeniyle yalnızca placeholder sunulmuştur.)</p>
+                    <div class="flex items-center space-x-4">
+                        <button class="bg-taranci-primary text-slate-900 w-10 h-10 rounded-full flex items-center justify-center hover:bg-yellow-500 transition duration-200">
+                            <i class="fas fa-play text-lg"></i>
+                        </button>
+                        <div class="flex-grow h-2 bg-slate-600 rounded-full">
+                            <div class="h-2 bg-taranci-primary rounded-full" style="width: 40%;"></div>
+                        </div>
+                        <span class="text-sm text-taranci-secondary">01:45 / 04:12</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer: "Ne Güzel Şey Hatırlamak Seni!" -->
+    <footer class="bg-slate-950 mt-20 py-10">
+        <div class="container mx-auto px-4 text-center">
+            <h4 class="text-2xl font-serif-elegant text-taranci-primary mb-4">
+                "Ne güzel şey hatırlamak seni!"
+            </h4>
+            <p class="text-taranci-secondary mb-6 text-sm">
+                Bu sayfa, Türk Edebiyatı'nın büyük şairine bir saygı duruşudur.
+            </p>
+            <div class="flex justify-center space-x-6 text-taranci-secondary">
+                <a href="#" class="hover:text-taranci-primary transition duration-200"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="hover:text-taranci-primary transition duration-200"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="hover:text-taranci-primary transition duration-200"><i class="fas fa-envelope"></i></a>
+            </div>
+            <p class="text-xs text-slate-700 mt-6">&copy; 2025 Cahit Sıtkı Edebi Mirası</p>
+        </div>
+    </footer>
+
+    <!-- Şiir Modal Penceresi (Modal Window) -->
+    <div id="poemModal" class="modal fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center p-4 z-50 opacity-0 invisible" aria-modal="true" role="dialog">
+        <div class="bg-taranci-bg border border-taranci-secondary/50 p-8 rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto transform scale-95 transition-transform duration-300">
+            <div class="flex justify-between items-start mb-6 border-b border-taranci-secondary/30 pb-3">
+                <h3 id="modalTitle" class="text-4xl font-serif-elegant font-bold text-taranci-primary">Şiir Adı</h3>
+                <button onclick="closePoemModal()" class="text-taranci-secondary hover:text-white transition text-3xl ml-4">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <pre id="modalContent" class="whitespace-pre-wrap text-lg leading-relaxed text-white font-serif-elegant italic"></pre>
+        </div>
+    </div>
+
+    <!-- JavaScript for Interactions -->
+    <script>
+        // Şiir verileri (Data for poems) - Datalar tamamlandı.
+        const poemData = {
+            "Otuz Beş Yaş": `
+Yaş otuz beş! yolun yarısı eder.
+Dante gibi ortasındayız ömrün.
+Delikanlı çağımızdaki cevher,
+Yalvarmak, yakarmak nafile bugün,
+Gözünün yaşına bakmadan gider.
+
+Şakaklarıma kar mı yağdı ne?
+Ne bu fırtına, bu kış?
+Oooof, bu eller niye böyle titriyor?
+Neden bembeyaz olmuş saçlarım,
+Benim mi Allah'ım bu çizgili yüz?
+Ya bu eller, niye böyle titriyor?
+            `,
+            "Desem ki": `
+Desem ki vakitlerden bir nisan akşamıdır,
+Rüzgarların en ferahlatıcısı senden esiyor,
+Sende seyrediyorum denizlerin en mavisini,
+Ormanların en kuytusunu sende gezmekteyim,
+Senden koptu:
+İçimdeki yaşama sevinci.
+Seninle:
+Açılıyor önümde,
+Denizler,
+Okyanuslar...
+            `,
+            "Memleket İsterim": `
+Memleket isterim
+Gök mavi, dal yeşil, tarla sarı olsun;
+Kuşların, çiçeklerin diyarı olsun.
+Memleket isterim
+Ne başta dert, ne gönülde hasret olsun;
+Kardeş kavgasına bir nihayet olsun.
+Ne zengin fakir, ne sen ben farkı olsun;
+Kış günü herkesin evi barkı olsun.
+            `,
+            "Abbas": `
+Haydi Abbas, vakit tamam;
+Akşam diyordun işte oldu akşam.
+Kur bakalım çilingir soframızı;
+Dinsin artık bu kalp ağrısı.
+Şu ağacın gölgesinde olsun,
+Kurulsun şölenimiz.
+Köyde de olsa, şehirde de,
+Abbas, bu akşam senindir.
+            `
+        };
+
+        const modal = document.getElementById('poemModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalContent = document.getElementById('modalContent');
+        const modalInner = modal.querySelector('div');
+
+        // Function to open the poem modal
+        function openPoemModal(title, content) {
+            modalTitle.textContent = title;
+            modalContent.textContent = content.trim();
+            
+            // Show modal with animation
+            modal.classList.remove('invisible', 'opacity-0');
+            modal.classList.add('opacity-100');
+            modalInner.classList.remove('scale-95');
+            modalInner.classList.add('scale-100');
+        }
+
+        // Function to close the poem modal
+        function closePoemModal() {
+            // Hide modal with animation
+            modal.classList.remove('opacity-100');
+            modalInner.classList.remove('scale-100');
+            modalInner.classList.add('scale-95');
+
+            setTimeout(() => {
+                modal.classList.add('invisible', 'opacity-0');
+            }, 300); // Wait for the transition to finish
+        }
+
+        // Close modal when clicking outside
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closePoemModal();
+            }
+        });
+
+        // Close modal when pressing ESC key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !modal.classList.contains('invisible')) {
+                closePoemModal();
+            }
+        });
+
+        // Function for smooth scrolling
+        function scrollToSection(id) {
+            const section = document.getElementById(id);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    </script>
+
+</body>
+</html>
