@@ -3,384 +3,280 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cahit Sıtkı Tarancı - Otuz Beş Yaş Hikayesi</title>
+    <title>Sabiha Feyza Demirci | Şehir ve Bölge Plancısı</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Custom Tailwind Configuration for Fonts and Colors -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'taranci-bg': '#0f172a', // Koyu Lacivert (Slate-900)
-                        'taranci-primary': '#facc15', // Altın Sarısı (Amber-400)
-                        'taranci-secondary': '#64748b', // Soluk Gri (Slate-500)
-                        'taranci-accent': '#ef4444', // Koyu Bordo/Kırmızı (Red-500)
-                    },
-                    fontFamily: {
-                        // Başlıklar için şık bir serif font
-                        'serif-elegant': ['Playfair Display', 'Georgia', 'serif'],
-                        // Gövde metni için modern sans-serif
-                        'sans-modern': ['Inter', 'sans-serif'],
-                    },
-                    keyframes: {
-                        fadeInDown: {
-                            '0%': { opacity: '0', transform: 'translateY(-20px)' },
-                            '100%': { opacity: '1', transform: 'translateY(0)' },
-                        },
-                        fadeIn: {
-                            '0%': { opacity: '0' },
-                            '100%': { opacity: '1' },
-                        }
-                    },
-                    animation: {
-                        'fade-in-down': 'fadeInDown 1s ease-out',
-                        'fade-in': 'fadeIn 1.5s ease-out',
-                    }
-                }
-            }
-        }
-    </script>
     <style>
-        /* Custom styles for background and effects */
+        /* Inter Font ve Ana Stiller */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
         body {
-            background-color: theme('colors.taranci-bg');
-            font-family: theme('fontFamily.sans-modern');
-            color: white;
+            font-family: 'Inter', sans-serif;
+            background-color: #0c0a09; /* Çok Koyu Arkaplan (Zinc 950) */
+            color: #f4f4f5; /* Açık Renk Yazı (Zinc 100) */
+            scroll-behavior: smooth;
         }
-
-        /* Parallax effect for the hero image */
-        .hero-bg {
-            /* Replace with a suitable image URL for Cahit Sıtkı */
-            background-image: url('https://placehold.co/1920x1080/0f172a/94a3b8?text=Cahit+S%C4%B1tk%C4%B1+Portresi');
-            background-attachment: fixed;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
-            height: 100vh;
+        /* Özel Bölüm Başlık Stili */
+        .section-title {
             position: relative;
+            display: inline-block;
+            padding-bottom: 0.5rem;
+            margin-bottom: 2rem;
+            font-size: 2.25rem; /* 3xl */
+            font-weight: 700; /* bold */
+            color: #2dd4bf; /* Teal 400 - Vurgu Rengi */
         }
-
-        /* Style for the overlay to enhance readability */
-        .hero-overlay {
-            background-color: rgba(15, 23, 42, 0.6); /* Koyu Lacivert Opaklık */
-            backdrop-filter: blur(1px);
+        .section-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 4px;
+            background-color: #2dd4bf; /* Teal 400 */
+            border-radius: 9999px; /* Tam yuvarlak */
         }
-
-        /* Custom scrollbar style for elegance */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background-color: theme('colors.taranci-secondary');
-            border-radius: 10px;
-        }
-
-        /* Style for the poem modal */
-        .modal {
-            transition: opacity 0.3s ease-out, visibility 0.3s ease-out;
+        /* Kartlar için hover efekti */
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(45, 212, 191, 0.2); /* Teal gölge */
         }
     </style>
 </head>
-<body>
+<body class="antialiased">
 
-    <!-- Parallax Hero Section: "Dur Gitme!" -->
-    <header class="hero-bg flex items-center justify-center text-center">
-        <div class="hero-overlay absolute inset-0"></div>
-        <div class="z-10 p-8 max-w-4xl mx-auto animate-fade-in-down">
-            <h1 class="text-7xl md:text-8xl font-serif-elegant font-bold mb-4 text-white drop-shadow-lg leading-tight">
-                Cahit Sıtkı Tarancı
-            </h1>
-            <h2 class="text-3xl md:text-4xl text-taranci-primary font-serif-elegant italic mb-8">
-                “Yaş otuz beş! Yolun yarısı eder.”
-            </h2>
-            <p class="text-xl text-taranci-secondary mb-10">
-                Türk Şiirinin Zaman ve Ölüm Temalı Derin Sesi
-            </p>
-            <button onclick="scrollToSection('poem-atlas')"
-                class="bg-taranci-accent hover:bg-red-600 text-white font-bold py-3 px-8 rounded-full shadow-2xl transition duration-300 ease-in-out transform hover:scale-105">
-                Şiirlere Yolculuk
-            </button>
+    <!-- Navbar -->
+    <nav class="sticky top-0 z-50 bg-zinc-900/90 backdrop-blur-sm shadow-xl shadow-black/30">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <a href="#home" class="text-2xl font-extrabold text-teal-400 tracking-wider transition duration-300 hover:text-white">
+                SFD
+            </a>
+            <div class="space-x-8 hidden md:flex">
+                <a href="#hakkimda" class="text-zinc-300 hover:text-teal-400 transition duration-300 font-medium">Hakkımda</a>
+                <a href="#deneyim" class="text-zinc-300 hover:text-teal-400 transition duration-300 font-medium">Deneyim</a>
+                <a href="#yetenekler" class="text-zinc-300 hover:text-teal-400 transition duration-300 font-medium">Yetenekler</a>
+                <a href="#iletisim" class="text-zinc-300 hover:text-teal-400 transition duration-300 font-medium">İletişim</a>
+            </div>
+            <!-- Mobil menü (Basitlik için burada gizlenmiştir) -->
         </div>
-    </header>
+    </nav>
 
-    <main class="container mx-auto px-4 py-20">
-
-        <!-- Section 2: Biyografi - "Memleket İsterim..." -->
-        <section id="biography" class="mb-24">
-            <h3 class="text-5xl font-serif-elegant font-light text-center mb-16 text-taranci-primary animate-fade-in">
-                Bir Ömür Hikayesi
-            </h3>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Kart 1: Diyarbakır ve İlk Dizeler -->
-                <div class="bg-slate-800 p-8 rounded-xl shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-1">
-                    <i class="fas fa-home text-4xl text-taranci-accent mb-4"></i>
-                    <h4 class="text-2xl font-serif-elegant font-semibold mb-3">Çocukluk ve Diyarbakır</h4>
-                    <p class="text-taranci-secondary">1910 yılında Diyarbakır'da doğdu. İlk şiirlerinde dahi hayatın faniliği ve güzellikleri temalarını işledi. Gençlik dönemi mektupları, edebi dünyasının temellerini oluşturdu.</p>
-                </div>
-
-                <!-- Kart 2: Paris Yılları ve Sanat -->
-                <div class="bg-slate-800 p-8 rounded-xl shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-1">
-                    <i class="fas fa-palette text-4xl text-taranci-accent mb-4"></i>
-                    <h4 class="text-2xl font-serif-elegant font-semibold mb-3">Paris'in Etkisi</h4>
-                    <p class="text-taranci-secondary">Siyasal Bilgiler okumak için gittiği Paris, ona Batı şiirini, özellikle Baudelaire ve Verlaine'i tanıma fırsatı verdi. Bu dönem, şiirine modern bir melankoli kattı.</p>
-                </div>
-
-                <!-- Kart 3: Otuz Beş Yaş ve Edebi Doruk -->
-                <div class="bg-slate-800 p-8 rounded-xl shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-1">
-                    <i class="fas fa-hourglass-half text-4xl text-taranci-accent mb-4"></i>
-                    <h4 class="text-2xl font-serif-elegant font-semibold mb-3">Doruk Noktası</h4>
-                    <p class="text-taranci-secondary">1946'da yayımlanan "Otuz Beş Yaş" şiiriyle adını Türk edebiyat tarihine altın harflerle yazdırdı. Bu eser, yaşam-ölüm kaygısının en çarpıcı ifadesidir.</p>
-                </div>
-            </div>
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="relative min-h-screen flex items-center justify-center p-8 overflow-hidden">
+            <!-- Arka Plan Görseli / Gradyan (Urban Planlama Teması) -->
+            <div class="absolute inset-0 bg-zinc-950 opacity-80 z-0"></div>
+            <div class="absolute inset-0 bg-gradient-to-br from-zinc-900 to-zinc-950 opacity-90 z-0"></div>
             
-            <!-- Öne Çıkan Not -->
-            <div class="mt-16 bg-taranci-accent/10 border-l-4 border-taranci-accent p-6 rounded-lg shadow-inner animate-fade-in">
-                <blockquote class="text-xl italic text-taranci-secondary">
-                    “Ne doğan güne hükmüm geçer, ne halden anlayan bulunur.”
-                </blockquote>
-                <p class="text-right text-sm text-taranci-secondary mt-2">- Cahit Sıtkı Tarancı</p>
+            <div class="relative z-10 text-center max-w-4xl mx-auto p-8 rounded-2xl bg-zinc-900/50 backdrop-blur-md shadow-2xl shadow-teal-500/20 border border-teal-500/30">
+                <h1 class="text-5xl sm:text-7xl lg:text-8xl font-black mb-4 leading-tight">
+                    <span class="text-white">Sabiha Feyza</span> <span class="text-teal-400">Demirci</span>
+                </h1>
+                <p class="text-xl sm:text-3xl font-light text-zinc-300 mb-8 mt-4">
+                    Modern Şehirler ve Sürdürülebilir Gelecek için <span class="font-semibold text-teal-300">Şehir ve Bölge Plancısı</span>
+                </p>
+                <div class="flex justify-center space-x-6">
+                    <a href="#deneyim" class="px-8 py-3 text-lg font-semibold bg-teal-600 text-white rounded-full hover:bg-teal-500 transition duration-300 transform hover:scale-105 shadow-lg shadow-teal-500/40">
+                        Deneyimi Keşfet
+                    </a>
+                    <a href="#iletisim" class="px-8 py-3 text-lg font-semibold border-2 border-teal-600 text-teal-400 rounded-full hover:bg-teal-600 hover:text-white transition duration-300 transform hover:scale-105">
+                        İletişim
+                    </a>
+                </div>
             </div>
         </section>
 
-        <!-- Section 3: Şiir Atlası - "Desem ki..." -->
-        <section id="poem-atlas" class="mb-24 pt-16">
-            <h3 class="text-5xl font-serif-elegant font-light text-center mb-16 text-taranci-primary">
-                Şiir Atlası
-            </h3>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-                <!-- Şiir Kartı 1 -->
-                <button onclick="openPoemModal('Otuz Beş Yaş', poemData['Otuz Beş Yaş'])" class="poem-card">
-                    <div class="bg-slate-700 p-6 rounded-xl shadow-lg h-full flex flex-col items-center justify-center transition duration-300 hover:bg-slate-600 group">
-                        <i class="fas fa-calendar-day text-5xl text-taranci-primary mb-4 group-hover:text-white transition"></i>
-                        <h4 class="text-xl font-serif-elegant font-semibold text-center group-hover:underline">Otuz Beş Yaş</h4>
-                        <p class="text-sm text-taranci-secondary mt-1 hidden group-hover:block">Yolun yarısı eder.</p>
-                    </div>
-                </button>
+        <!-- About/Skills Section -->
+        <section id="hakkimda" class="py-24 bg-zinc-900">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
+                <div class="text-center mb-16">
+                    <h2 class="section-title">Hakkımda & Yetenekler</h2>
+                </div>
                 
-                <!-- Şiir Kartı 2 -->
-                <button onclick="openPoemModal('Desem ki', poemData['Desem ki'])" class="poem-card">
-                    <div class="bg-slate-700 p-6 rounded-xl shadow-lg h-full flex flex-col items-center justify-center transition duration-300 hover:bg-slate-600 group">
-                        <i class="fas fa-sun text-5xl text-taranci-primary mb-4 group-hover:text-white transition"></i>
-                        <h4 class="text-xl font-serif-elegant font-semibold text-center group-hover:underline">Desem ki</h4>
-                        <p class="text-sm text-taranci-secondary mt-1 hidden group-hover:block">Seninle geçen ömrüm.</p>
+                <div class="grid md:grid-cols-2 gap-12 items-start">
+                    <!-- Hakkında Yazı Bloğu -->
+                    <div>
+                        <p class="text-zinc-300 text-lg mb-4 leading-relaxed border-l-4 border-teal-400 pl-4 bg-zinc-800 p-4 rounded-lg">
+                            Sürdürülebilir, yaşanabilir ve dirençli şehirler inşa etme vizyonuyla hareket eden deneyimli bir Şehir ve Bölge Plancısıyım. Veri odaklı analizler ve saha planlama uzmanlığı ile kentsel sorunlara yenilikçi çözümler üretiyorum.
+                        </p>
+                        <p class="text-zinc-400 text-base leading-relaxed mt-4">
+                            Proje yönetimi ve detaylı planlama süreçlerinde edindiğim bilgi birikimiyle, karmaşık kentsel dinamikleri çözerek etkin ve uygulanabilir stratejiler geliştirme konusunda uzmanım.
+                        </p>
+                        <a href="#egitim" class="mt-6 inline-block text-teal-400 font-medium hover:text-teal-300 transition duration-300">Eğitim Detayları &rarr;</a>
                     </div>
-                </button>
 
-                <!-- Şiir Kartı 3 -->
-                <button onclick="openPoemModal('Memleket İsterim', poemData['Memleket İsterim'])" class="poem-card">
-                    <div class="bg-slate-700 p-6 rounded-xl shadow-lg h-full flex flex-col items-center justify-center transition duration-300 hover:bg-slate-600 group">
-                        <i class="fas fa-mountain text-5xl text-taranci-primary mb-4 group-hover:text-white transition"></i>
-                        <h4 class="text-xl font-serif-elegant font-semibold text-center group-hover:underline">Memleket İsterim</h4>
-                        <p class="text-sm text-taranci-secondary mt-1 hidden group-hover:block">Ne başta dert, ne gönülde hasret.</p>
-                    </div>
-                </button>
-
-                <!-- Şiir Kartı 4 -->
-                <button onclick="openPoemModal('Abbas', poemData['Abbas'])" class="poem-card">
-                    <div class="bg-slate-700 p-6 rounded-xl shadow-lg h-full flex flex-col items-center justify-center transition duration-300 hover:bg-slate-600 group">
-                        <i class="fas fa-train text-5xl text-taranci-primary mb-4 group-hover:text-white transition"></i>
-                        <h4 class="text-xl font-serif-elegant font-semibold text-center group-hover:underline">Abbas</h4>
-                        <p class="text-sm text-taranci-secondary mt-1 hidden group-hover:block">Geldi çattı, kapımıza dayandı.</p>
-                    </div>
-                </button>
-            </div>
-        </section>
-
-        <!-- Section 4: Etkileyenler ve Etkilenenler: "Sanat Kaynaşması" -->
-        <section id="influence" class="mb-24 pt-16">
-            <h3 class="text-5xl font-serif-elegant font-light text-center mb-16 text-taranci-primary">
-                Edebiyat Çevresi: Ziya'ya Mektuplar
-            </h3>
-            <div class="bg-slate-800 p-10 rounded-xl shadow-2xl flex flex-col lg:flex-row items-center space-y-8 lg:space-y-0 lg:space-x-12">
-                <!-- Portre 1 -->
-                <div class="flex-shrink-0 text-center">
-                    <!-- Placeholder image for Cahit Sıtkı -->
-                    <img src="https://placehold.co/150x150/0f172a/facc15?text=CST" alt="Cahit Sıtkı Tarancı" class="w-36 h-36 rounded-full mx-auto border-4 border-taranci-primary/50 object-cover mb-3">
-                    <p class="text-xl font-serif-elegant font-semibold">Cahit Sıtkı</p>
-                </div>
-
-                <!-- İlişki Metni -->
-                <div class="flex-grow text-center lg:text-left">
-                    <i class="fas fa-link text-4xl text-taranci-accent mb-4 lg:mb-0"></i>
-                    <p class="text-taranci-secondary text-lg">
-                        Cahit Sıtkı'nın edebi hayatının en önemli köşe taşlarından biri, yakın dostu **Ziya Osman Saba** ile olan mektuplaşmalarıdır. Bu mektuplar, iki şairin ortak hüznünü, sanata bakışını ve dönemin edebiyat ortamını yansıtan değerli birer kaynaktır. Onların dünyası, aynı sadeliğin ve derinliğin izlerini taşır.
-                    </p>
-                </div>
-
-                <!-- Portre 2 -->
-                <div class="flex-shrink-0 text-center">
-                    <!-- Placeholder image for Ziya Osman Saba -->
-                    <img src="https://placehold.co/150x150/0f172a/facc15?text=ZOS" alt="Ziya Osman Saba" class="w-36 h-36 rounded-full mx-auto border-4 border-taranci-primary/50 object-cover mb-3">
-                    <p class="text-xl font-serif-elegant font-semibold">Ziya Osman Saba</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Section 5: Sesli Köşe - "Ömrümde Sükût" (Placeholder) -->
-        <section id="audio-corner" class="pt-16">
-            <h3 class="text-5xl font-serif-elegant font-light text-center mb-16 text-taranci-primary">
-                Şiirin Kendi Sesiyle
-            </h3>
-            <div class="bg-slate-800 p-10 rounded-xl shadow-2xl max-w-2xl mx-auto">
-                <div class="flex items-center space-x-4 mb-6">
-                    <i class="fas fa-microphone-alt text-4xl text-taranci-accent"></i>
-                    <h4 class="text-3xl font-serif-elegant font-semibold">Otuz Beş Yaş Seslendirmesi</h4>
-                </div>
-                <div class="bg-slate-700 p-4 rounded-lg">
-                    <p class="text-taranci-secondary mb-3">Bu alanda şairin ünlü eserlerinin ses kayıtları yer alacaktır. (Harici link kısıtlamaları nedeniyle yalnızca placeholder sunulmuştur.)</p>
-                    <div class="flex items-center space-x-4">
-                        <button class="bg-taranci-primary text-slate-900 w-10 h-10 rounded-full flex items-center justify-center hover:bg-yellow-500 transition duration-200">
-                            <i class="fas fa-play text-lg"></i>
-                        </button>
-                        <div class="flex-grow h-2 bg-slate-600 rounded-full">
-                            <div class="h-2 bg-taranci-primary rounded-full" style="width: 40%;"></div>
+                    <!-- Top Skills -->
+                    <div id="yetenekler">
+                        <h3 class="text-2xl font-semibold mb-6 text-teal-400">Öne Çıkan Yetenekler</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <!-- Saha Planlama Card -->
+                            <div class="p-5 bg-zinc-800 rounded-xl shadow-xl card-hover transition duration-300 border border-zinc-700">
+                                <span class="text-4xl text-teal-400 mb-3 inline-block">
+                                    <!-- Building Icon -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-7 h-7"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="m9 12 2 2 4-4"></path></svg>
+                                </span>
+                                <p class="text-lg font-bold text-white">Saha Planlama</p>
+                                <p class="text-sm text-zinc-400 mt-1">Detaylı arazi ve proje yönetimi.</p>
+                            </div>
+                            <!-- Veri Analizi Card -->
+                            <div class="p-5 bg-zinc-800 rounded-xl shadow-xl card-hover transition duration-300 border border-zinc-700">
+                                <span class="text-4xl text-teal-400 mb-3 inline-block">
+                                    <!-- Bar Chart Icon -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-7 h-7"><path d="M16 19h6"></path><path d="M19 16l3 3-3 3"></path><line x1="12" y1="17" x2="12" y2="10"></line><line x1="19" y1="17" x2="19" y2="13"></line><line x1="5" y1="17" x2="5" y2="15"></line><path d="M21 12V7H3v14h9"></path></svg>
+                                </span>
+                                <p class="text-lg font-bold text-white">Veri Analizi</p>
+                                <p class="text-sm text-zinc-400 mt-1">Karar destekleyici veri işleme.</p>
+                            </div>
+                            <!-- Analitik Beceriler Card -->
+                            <div class="p-5 bg-zinc-800 rounded-xl shadow-xl card-hover transition duration-300 border border-zinc-700">
+                                <span class="text-4xl text-teal-400 mb-3 inline-block">
+                                    <!-- File Text Icon -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-7 h-7"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="15" x2="12" y2="9"></line><line x1="8" y1="18" x2="8" y2="12"></line><line x1="16" y1="18" x2="16" y2="12"></line></svg>
+                                </span>
+                                <p class="text-lg font-bold text-white">Analitik Beceriler</p>
+                                <p class="text-sm text-zinc-400 mt-1">Problem çözme ve strateji geliştirme.</p>
+                            </div>
                         </div>
-                        <span class="text-sm text-taranci-secondary">01:45 / 04:12</span>
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- Experience Section (Timeline Style) -->
+        <section id="deneyim" class="py-24 bg-zinc-950">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
+                <div class="text-center mb-16">
+                    <h2 class="section-title">Profesyonel Deneyim</h2>
+                </div>
+
+                <ol class="relative border-l-4 border-teal-600 ml-4 md:ml-0">
+                    <!-- Emlak Yönetim A.Ş. -->
+                    <li class="mb-10 ml-6 md:ml-10">
+                        <!-- Timeline Dot (Briefcase Icon) -->
+                        <span class="absolute flex items-center justify-center w-8 h-8 bg-teal-600 rounded-full -left-4 ring-8 ring-zinc-950">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-white"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+                        </span>
+                        <h3 class="flex items-center mb-1 text-xl font-semibold text-white">
+                            Şehir Plancısı
+                            <span class="bg-teal-600 text-white text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full ml-3">Güncel</span>
+                        </h3>
+                        <p class="mb-2 text-lg font-medium text-zinc-300">Emlak Yönetim A.Ş. - Ankara, Türkiye</p>
+                        <time class="block mb-2 text-sm font-normal leading-none text-zinc-500">Aralık 2024 - Halen (1 Yıl)</time>
+                        <p class="text-base font-normal text-zinc-400">Aktif şehir planlama projelerinde yer alma ve kentsel dönüşüm süreçlerini yönetme.</p>
+                    </li>
+                    
+                    <!-- Muad Planlama Mimarlık -->
+                    <li class="mb-10 ml-6 md:ml-10">
+                        <span class="absolute flex items-center justify-center w-8 h-8 bg-teal-600 rounded-full -left-4 ring-8 ring-zinc-950">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-white"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+                        </span>
+                        <h3 class="mb-1 text-xl font-semibold text-white">Kıdemli Uzman | Şehir Plancısı</h3>
+                        <p class="mb-2 text-lg font-medium text-zinc-300">Muad Planlama Mimarlık - İstanbul, Türkiye</p>
+                        <time class="block mb-2 text-sm font-normal leading-none text-zinc-500">Mayıs 2023 - Aralık 2024 (1 Yıl 8 Ay)</time>
+                        <p class="text-base font-normal text-zinc-400">Büyük ölçekli mimari ve planlama projelerinde uzman düzeyinde katkı sağlama.</p>
+                    </li>
+
+                    <!-- Ordu Çevre ve Şehircilik İl Müdürlüğü -->
+                    <li class="mb-10 ml-6 md:ml-10">
+                        <span class="absolute flex items-center justify-center w-8 h-8 bg-teal-600 rounded-full -left-4 ring-8 ring-zinc-950">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-white"><path d="M3 7l6-3 6 3 6-3v13c0 1-1 2-2 2H5c-1 0-2-1-2-2V7z"></path><path d="M12 16c-1.1 0-2-.9-2-2v-4a2 2 0 0 1 4 0v4c0 1.1-.9 2-2 2z"></path></svg>
+                        </span>
+                        <h3 class="mb-1 text-xl font-semibold text-white">Şehir Plancısı (Staj)</h3>
+                        <p class="mb-2 text-lg font-medium text-zinc-300">Ordu Çevre ve Şehircilik İl Müdürlüğü - Ordu, Türkiye</p>
+                        <time class="block mb-2 text-sm font-normal leading-none text-zinc-500">Temmuz 2022 - Eylül 2022 (3 Ay)</time>
+                        <p class="text-base font-normal text-zinc-400">Kurumsal planlama ve denetim süreçlerinde gözlem ve destek.</p>
+                    </li>
+                    
+                    <!-- Ege Planlama -->
+                    <li class="ml-6 md:ml-10">
+                        <span class="absolute flex items-center justify-center w-8 h-8 bg-teal-600 rounded-full -left-4 ring-8 ring-zinc-950">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-white"><rect width="20" height="14" x="2" y="7" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+                        </span>
+                        <h3 class="mb-1 text-xl font-semibold text-white">Şehir Plancısı</h3>
+                        <p class="mb-2 text-lg font-medium text-zinc-300">Ege Planlama - Ankara, Türkiye</p>
+                        <time class="block mb-2 text-sm font-normal leading-none text-zinc-500">Temmuz 2020 - Ağustos 2021 (1 Yıl 2 Ay)</time>
+                        <p class="text-base font-normal text-zinc-400">Çeşitli ölçeklerde imar ve çevre düzeni planı çalışmalarına destek.</p>
+                    </li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- Education Section -->
+        <section id="egitim" class="py-24 bg-zinc-900">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
+                <div class="text-center mb-16">
+                    <h2 class="section-title">Eğitim</h2>
+                </div>
+
+                <div class="p-8 bg-zinc-800 rounded-2xl shadow-2xl shadow-teal-500/10 transition duration-300 hover:border-teal-400 border border-transparent">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center">
+                        <div>
+                            <h3 class="text-2xl font-bold text-white mb-1">Karadeniz Teknik Üniversitesi</h3>
+                            <p class="text-xl font-medium text-teal-400">Şehir/Kent, Topluluk ve Bölgesel Planlama</p>
+                        </div>
+                        <p class="mt-2 sm:mt-0 text-lg font-semibold text-zinc-400">Eylül 2016 - Temmuz 2022</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Contact Section -->
+        <section id="iletisim" class="py-24 bg-zinc-950">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl text-center">
+                <h2 class="section-title">İletişime Geçin</h2>
+                <p class="text-xl text-zinc-300 mb-12">Proje iş birlikleri ve diğer tüm sorularınız için bana ulaşmaktan çekinmeyin.</p>
+
+                <div class="flex flex-col space-y-8">
+                    <!-- Email -->
+                    <div class="flex flex-col sm:flex-row items-center justify-center p-6 bg-zinc-900 rounded-xl shadow-xl card-hover transition duration-300 border border-zinc-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8 text-teal-400 sm:mr-4 mb-2 sm:mb-0"><rect x="2" y="4" width="20" height="16" rx="2" ry="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
+                        <div class="text-center sm:text-left">
+                            <p class="text-lg font-semibold text-zinc-200">E-posta</p>
+                            <a href="mailto:sfeyzademirci53@gmail.com" class="text-xl text-teal-400 hover:text-teal-300 transition duration-300 break-all">sfeyzademirci53@gmail.com</a>
+                        </div>
+                    </div>
+                    
+                    <!-- LinkedIn -->
+                    <div class="flex flex-col sm:flex-row items-center justify-center p-6 bg-zinc-900 rounded-xl shadow-xl card-hover transition duration-300 border border-zinc-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8 text-teal-400 sm:mr-4 mb-2 sm:mb-0"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                        <div class="text-center sm:text-left">
+                            <p class="text-lg font-semibold text-zinc-200">LinkedIn</p>
+                            <a href="https://www.linkedin.com/in/sabiha-feyza-demirci-313237242" target="_blank" class="text-xl text-teal-400 hover:text-teal-300 transition duration-300 break-all">/sabiha-feyza-demirci-313237242</a>
+                        </div>
+                    </div>
+
+                    <!-- Location -->
+                    <div class="flex flex-col sm:flex-row items-center justify-center p-6 bg-zinc-900 rounded-xl shadow-xl card-hover transition duration-300 border border-zinc-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8 text-teal-400 sm:mr-4 mb-2 sm:mb-0"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                        <div class="text-center sm:text-left">
+                            <p class="text-lg font-semibold text-zinc-200">Konum</p>
+                            <p class="text-xl text-zinc-300">Ankara, Türkiye</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 
-    <!-- Footer: "Ne Güzel Şey Hatırlamak Seni!" -->
-    <footer class="bg-slate-950 mt-20 py-10">
-        <div class="container mx-auto px-4 text-center">
-            <h4 class="text-2xl font-serif-elegant text-taranci-primary mb-4">
-                "Ne güzel şey hatırlamak seni!"
-            </h4>
-            <p class="text-taranci-secondary mb-6 text-sm">
-                Bu sayfa, Türk Edebiyatı'nın büyük şairine bir saygı duruşudur.
-            </p>
-            <div class="flex justify-center space-x-6 text-taranci-secondary">
-                <a href="#" class="hover:text-taranci-primary transition duration-200"><i class="fab fa-twitter"></i></a>
-                <a href="#" class="hover:text-taranci-primary transition duration-200"><i class="fab fa-instagram"></i></a>
-                <a href="#" class="hover:text-taranci-primary transition duration-200"><i class="fas fa-envelope"></i></a>
-            </div>
-            <p class="text-xs text-slate-700 mt-6">&copy; 2025 Cahit Sıtkı Edebi Mirası</p>
+    <!-- Footer -->
+    <footer class="bg-zinc-800 py-6">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center text-zinc-400">
+            <p>&copy; 2025 Sabiha Feyza Demirci. Tüm Hakları Saklıdır.</p>
         </div>
     </footer>
 
-    <!-- Şiir Modal Penceresi (Modal Window) -->
-    <div id="poemModal" class="modal fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center p-4 z-50 opacity-0 invisible" aria-modal="true" role="dialog">
-        <div class="bg-taranci-bg border border-taranci-secondary/50 p-8 rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto transform scale-95 transition-transform duration-300">
-            <div class="flex justify-between items-start mb-6 border-b border-taranci-secondary/30 pb-3">
-                <h3 id="modalTitle" class="text-4xl font-serif-elegant font-bold text-taranci-primary">Şiir Adı</h3>
-                <button onclick="closePoemModal()" class="text-taranci-secondary hover:text-white transition text-3xl ml-4">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <pre id="modalContent" class="whitespace-pre-wrap text-lg leading-relaxed text-white font-serif-elegant italic"></pre>
-        </div>
-    </div>
-
-    <!-- JavaScript for Interactions -->
+    <!-- JS for smooth scrolling (Çapaların yumuşak kaymasını sağlar) -->
     <script>
-        // Şiir verileri (Data for poems) - Datalar tamamlandı.
-        const poemData = {
-            "Otuz Beş Yaş": `
-Yaş otuz beş! yolun yarısı eder.
-Dante gibi ortasındayız ömrün.
-Delikanlı çağımızdaki cevher,
-Yalvarmak, yakarmak nafile bugün,
-Gözünün yaşına bakmadan gider.
-
-Şakaklarıma kar mı yağdı ne?
-Ne bu fırtına, bu kış?
-Oooof, bu eller niye böyle titriyor?
-Neden bembeyaz olmuş saçlarım,
-Benim mi Allah'ım bu çizgili yüz?
-Ya bu eller, niye böyle titriyor?
-            `,
-            "Desem ki": `
-Desem ki vakitlerden bir nisan akşamıdır,
-Rüzgarların en ferahlatıcısı senden esiyor,
-Sende seyrediyorum denizlerin en mavisini,
-Ormanların en kuytusunu sende gezmekteyim,
-Senden koptu:
-İçimdeki yaşama sevinci.
-Seninle:
-Açılıyor önümde,
-Denizler,
-Okyanuslar...
-            `,
-            "Memleket İsterim": `
-Memleket isterim
-Gök mavi, dal yeşil, tarla sarı olsun;
-Kuşların, çiçeklerin diyarı olsun.
-Memleket isterim
-Ne başta dert, ne gönülde hasret olsun;
-Kardeş kavgasına bir nihayet olsun.
-Ne zengin fakir, ne sen ben farkı olsun;
-Kış günü herkesin evi barkı olsun.
-            `,
-            "Abbas": `
-Haydi Abbas, vakit tamam;
-Akşam diyordun işte oldu akşam.
-Kur bakalım çilingir soframızı;
-Dinsin artık bu kalp ağrısı.
-Şu ağacın gölgesinde olsun,
-Kurulsun şölenimiz.
-Köyde de olsa, şehirde de,
-Abbas, bu akşam senindir.
-            `
-        };
-
-        const modal = document.getElementById('poemModal');
-        const modalTitle = document.getElementById('modalTitle');
-        const modalContent = document.getElementById('modalContent');
-        const modalInner = modal.querySelector('div');
-
-        // Function to open the poem modal
-        function openPoemModal(title, content) {
-            modalTitle.textContent = title;
-            modalContent.textContent = content.trim();
-            
-            // Show modal with animation
-            modal.classList.remove('invisible', 'opacity-0');
-            modal.classList.add('opacity-100');
-            modalInner.classList.remove('scale-95');
-            modalInner.classList.add('scale-100');
-        }
-
-        // Function to close the poem modal
-        function closePoemModal() {
-            // Hide modal with animation
-            modal.classList.remove('opacity-100');
-            modalInner.classList.remove('scale-100');
-            modalInner.classList.add('scale-95');
-
-            setTimeout(() => {
-                modal.classList.add('invisible', 'opacity-0');
-            }, 300); // Wait for the transition to finish
-        }
-
-        // Close modal when clicking outside
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                closePoemModal();
-            }
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                // Sadece sayfa içi bağlantıları yakala
+                if (this.hash !== "") {
+                    e.preventDefault();
+                    document.querySelector(this.hash).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
         });
-
-        // Close modal when pressing ESC key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && !modal.classList.contains('invisible')) {
-                closePoemModal();
-            }
-        });
-
-        // Function for smooth scrolling
-        function scrollToSection(id) {
-            const section = document.getElementById(id);
-            if (section) {
-                section.scrollIntoView({ behavior: 'smooth' });
-            }
-        }
     </script>
-
 </body>
 </html>
