@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Süpermarket Satış Analiz Paneli (Detaylı)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js CDN for graphics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <style>
+        /* Inter font for better readability */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f9fb;
+        }
+        .card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+            transition: transform 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        th, td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            white-space: nowrap;
+        }
+        th {
+            cursor: pointer;
+            position: sticky;
+            top: 0;
+            background: #f1f5f9; /* Slate-100 */
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-8">
+    <div id="app" class="max-w-7xl mx-auto">
+        <header class="mb-8">
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-800 border-b-4 border-indigo-500 pb-2 inline-block">Süpermarket Satış Analiz Paneli 📊</h1>
+            <p class="text-gray-500 mt-2">Kapsamlı Rapor: Anahtar metrikler, demografik analizler ve zaman serisi eğilimleri.</p>
+        </header>
+
+        <!-- Loading Indicator -->
+        <div id="loading" class="text-center p-10 text-xl text-indigo-600 font-semibold">
+            Veriler yükleniyor ve derinlemesine analiz ediliyor... Lütfen bekleyin.
+        </div>
+
+        <!-- Main Dashboard Content -->
+        <div id="dashboard" class="hidden">
+            
+            <!-- 1. Anahtar Performans Metrikleri -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                <div class="card bg-indigo-50 border-l-4 border-indigo-500">
+                    <p class="text-sm font-medium text-gray-500">Toplam Satış (USD)</p>
+                    <p id="totalSales" class="text-3xl font-bold text-indigo-800 mt-1">...</p>
+                </div>
+                <div class="card bg-green-50 border-l-4 border-green-500">
+                    <p class="text-sm font-medium text-gray-500">Ortalama Müşteri Derecelendirmesi</p>
+                    <p id="avgRating" class="text-3xl font-bold text-green-800 mt-1">...</p>
+                </div>
+                <div class="card bg-yellow-50 border-l-4 border-yellow-500">
+                    <p class="text-sm font-medium text-gray-500">Toplam Brüt Gelir (Kar)</p>
+                    <p id="totalGrossIncome" class="text-3xl font-bold text-yellow-800 mt-1">...</p>
+                </div>
+            </div>
+
+            <!-- 2. Temel Operasyonel Analiz -->
+            <h2 class="text-2xl font-bold text-gray-700 mt-10 mb-4 border-b pb-2">Temel Operasyonel ve Konumsal Analiz</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-6 mb-12">
+                
+                <!-- Chart 1: Branch Sales (Pie) -->
+                <div class="card">
+                    <h3 class="text-lg font-semibold text-gray-700 mb-4">Şube Bazında Toplam Satış</h3>
+                    <div class="h-64"><canvas id="branchSalesChart"></canvas></div>
+                </div>
+                
+                <!-- Chart 2: City Sales (Bar) -->
+                <div class="card">
+                    <h3 class="text-lg font-semibold text-gray-700 mb-4">Şehir Bazında Toplam Satış</h3>
+                    <div class="h-64"><canvas id="citySalesChart"></canvas></div>
+                </div>
+
+                <!-- Chart 3: Payment Method (Bar) -->
+                <div class="card">
+                    <h3 class="text-lg font-semibold text-gray-700 mb-4">Ödeme Yöntemi Tercihleri (İşlem Sayısı)</h3>
+                    <div class="h-64"><canvas id="paymentMethodChart"></canvas></div>
+                </div>
+
+                <!-- Chart 4: Sales by Hour (Line) -->
+                <div class="card">
+                    <h3 class="text-lg font-semibold text-gray-700 mb-4">Günlük Satış Yoğunluğu (Saate Göre)</h3>
+                    <div class="h-64"><canvas id="salesByHourChart"></canvas></div>
+                </div>
+            </div>
+
+            <!-- 3. Müşteri ve Demografik Analiz -->
+            <h2 class="text-2xl font-bold text-gray-700 mt-10 mb-4 border-b pb-2">Müşteri ve Demografik Analiz</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-12">
+                <!-- New Chart 5: Customer Type Sales (Bar) -->
+                <div class="card">
+                    <h3 class="text-lg font-semibold text-gray-700 mb-4">Müşteri Tipine Göre Toplam Satış</h3>
+                    <div class="h-64"><canvas id="customerTypeSalesChart"></canvas></div>
+                </div>
+                <!-- New Chart 6: Gender Sales (Bar) -->
+                <div class="card">
+                    <h3 class="text-lg font-semibold text-gray-700 mb-4">Cinsiyete Göre Toplam Satış</h3>
+                    <div class="h-64"><canvas id="genderSalesChart"></canvas></div>
+                </div>
+                <!-- New Chart 7: Average Rating Distribution (Bar) -->
+                <div class="card">
+                    <h3 class="text-lg font-semibold text-gray-700 mb-4">Müşteri Puanı Dağılımı (Frekans)</h3>
+                    <div class="h-64"><canvas id="ratingDistributionChart"></canvas></div>
+                </div>
+            </div>
+
+            <!-- 4. Zaman Serisi ve Korelasyon Analizi -->
+            <h2 class="text-2xl font-bold text-gray-700 mt-10 mb-4 border-b pb-2">Zaman Serisi ve Korelasyon Analizi</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-12">
+                <!-- New Chart 8: Daily Sales Trend (Line) -->
+                <div class="card">
+                    <h3 class="text-lg font-semibold text-gray-700 mb-4">Günlük Satış Trendi</h3>
+                    <div class="h-80"><canvas id="dailySalesTrendChart"></canvas></div>
+                </div>
+                <!-- New Chart 9: Price vs Quantity Scatter -->
+                <div class="card">
+                    <h3 class="text-lg font-semibold text-gray-700 mb-4">Birim Fiyat vs Miktar İlişkisi</h3>
+                    <div class="h-80"><canvas id="priceQuantityScatterChart"></canvas></div>
+                </div>
+            </div>
+            
+            <!-- 5. Detaylı Ürün Performansı Tablosu -->
+            <h2 class="text-2xl font-bold text-gray-700 mt-10 mb-4 border-b pb-2">Detaylı Ürün Hattı Performansı</h2>
+            <p class="text-gray-500 mb-4">Satışlar, Kar ve Miktar bazında ürün hatlarının detaylı karşılaştırması.</p>
+            <div class="card overflow-x-auto">
+                <table id="productDetailTable" class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50 sticky top-0">
+                        <tr>
+                            <th class="text-xs font-medium text-gray-500 uppercase tracking-wider" onclick="sortTable(0)">Ürün Hattı</th>
+                            <th class="text-xs font-medium text-gray-500 uppercase tracking-wider" onclick="sortTable(1)">Toplam Satış (USD)</th>
+                            <th class="text-xs font-medium text-gray-500 uppercase tracking-wider" onclick="sortTable(2)">Toplam Brüt Gelir</th>
+                            <th class="text-xs font-medium text-gray-500 uppercase tracking-wider" onclick="sortTable(3)">Toplam Miktar</th>
+                            <th class="text-xs font-medium text-gray-500 uppercase tracking-wider" onclick="sortTable(4)">Ort. Müşteri Puanı</th>
+                        </tr>
+                    </thead>
+                    <tbody id="productTableBody" class="bg-white divide-y divide-gray-200">
+                        <!-- Table content will be inserted by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Global variables provided by the environment for file access
+        const SUPERMARKET_DATA_ID = "uploaded:supermarket.csv";
+        const fileContent = "Invoice ID,Branch,City,Customer type,Gender,Product line,Unit price,Quantity,Tax 5%,Total,Date,Time,Payment,cogs,gross margin percentage,gross income,Rating\r\n750-67-8428,A,Yangon,Member,Female,Health and beauty,74.69,7,26.1415,548.9715,1/5/2019,13:08,Ewallet,522.83,4.761904762,26.1415,9.1\r\n226-31-3081,C,Naypyitaw,Normal,Female,Electronic accessories,15.28,5,3.82,80.22,3/8/2019,10:29,Cash,76.4,4.761904762,3.82,9.6\r\n631-41-3108,A,Yangon,Normal,Male,Home and lifestyle,46.33,7,16.2155,340.5255,3/3/2019,13:23,Credit card,324.31,4.761904762,16.2155,7.4\r\n123-19-1176,A,Yangon,Member,Male,Health and beauty,58.22,8,23.288,489.048,1/19/2019,16:51,Ewallet,465.76,4.761904762,23.288,7.3\r\n231-50-6548,B,Mandalay,Normal,Male,Sports and travel,25.99,3,3.8985,81.8685,2/18/2019,16:34,Ewallet,77.97,4.761904762,3.8985,7.8\r\n122-68-2321,C,Naypyitaw,Normal,Female,Home and lifestyle,70.52,6,21.156,444.276,2/28/2019,15:26,Cash,423.12,4.761904762,21.156,7.7\r\n162-83-8408,B,Mandalay,Normal,Male,Home and lifestyle,71.55,8,28.62,601.02,3/8/2019,15:35,Ewallet,572.4,4.761904762,28.62,4.4\r\n220-35-1888,B,Mandalay,Member,Female,Electronic accessories,65.8,7,23.03,483.63,1/3/2019,14:23,Credit card,460.6,4.761904762,23.03,4.1\r\n212-70-2228,A,Yangon,Normal,Male,Fashion accessories,97.77,6,29.331,615.901,3/27/2019,13:16,Cash,586.57,4.761904762,29.331,3.2\r\n450-17-7407,C,Naypyitaw,Member,Female,Electronic accessories,32.4,9,14.58,306.18,1/12/2019,14:52,Ewallet,291.6,4.761904762,14.58,9.7\r\n658-38-6902,C,Naypyitaw,Member,Female,Food and beverages,69.75,4,13.95,292.95,1/20/2019,11:34,Cash,279,4.761904762,13.95,6\r\n232-26-8090,A,Yangon,Member,Male,Fashion accessories,26.47,4,5.294,111.234,3/12/2019,13:02,Ewallet,105.94,4.761904762,5.294,5.9\r\n118-20-8021,B,Mandalay,Normal,Female,Fashion accessories,57.17,1,2.8585,60.0285,3/28/2019,18:59,Credit card,57.17,4.761904762,2.8585,6.7\r\n960-91-8935,C,Naypyitaw,Normal,Male,Electronic accessories,65.04,1,3.252,68.292,3/29/2019,16:16,Ewallet,65.04,4.761904762,3.252,5.8\r\n120-77-9060,C,Naypyitaw,Member,Female,Electronic accessories,94.97,10,47.485,996.185,1/18/2019,14:56,Cash,949.7,4.761904762,47.485,3.6\r\n574-12-6321,A,Yangon,Member,Male,Sports and travel,82.34,10,41.17,864.57,3/29/2019,19:12,Ewallet,823.4,4.761904762,41.17,4.3\r\n430-53-4718,B,Mandalay,Member,Male,Health and beauty,75.37,8,30.148,633.108,1/28/2019,15:46,Credit card,602.96,4.761904762,30.148,8.4\r\n886-18-2897,A,Yangon,Normal,Female,Food and beverages,56.56,5,14.14,296.94,3/22/2019,19:06,Credit card,282.8,4.761904762,14.14,4.5\r\n602-16-6955,B,Mandalay,Normal,Female,Sports and travel,76.6,10,38.3,804.3,1/24/2019,18:10,Ewallet,766,4.761904762,38.3,6\r\n745-74-0715,A,Yangon,Normal,Male,Electronic accessories,58.03,8,23.212,487.372,2/8/2019,19:18,Credit card,464.16,4.761904762,23.212,3.3";
+        
+        // --- CSV Parsing Utility ---
+        function parseCSV(csvText) {
+            const lines = csvText.trim().split('\r\n');
+            if (lines.length === 0) return [];
+
+            const headers = lines[0].split(',');
+            const data = [];
+
+            for (let i = 1; i < lines.length; i++) {
+                const values = lines[i].split(',');
+                if (values.length === headers.length) {
+                    const row = {};
+                    headers.forEach((header, index) => {
+                        const h = header.trim();
+                        const v = values[index].trim();
+                        const numericHeaders = ['Unit price', 'Quantity', 'Tax 5%', 'Total', 'cogs', 'gross margin percentage', 'gross income', 'Rating'];
+                        if (numericHeaders.includes(h)) {
+                            row[h] = parseFloat(v) || 0;
+                        } else {
+                            row[h] = v;
+                        }
+                    });
+                    data.push(row);
+                }
+            }
+            return data;
+        }
+
+        // --- Data Analysis and Visualization ---
+        function analyzeAndRender(data) {
+            // 1. Calculate Key Metrics
+            const totalSalesValue = data.reduce((sum, row) => sum + row.Total, 0);
+            const avgRatingValue = data.reduce((sum, row) => sum + row.Rating, 0) / data.length;
+            const totalGrossIncomeValue = data.reduce((sum, row) => sum + row['gross income'], 0);
+
+            document.getElementById('totalSales').textContent = `$${totalSalesValue.toFixed(2)}`;
+            document.getElementById('avgRating').textContent = avgRatingValue.toFixed(1);
+            document.getElementById('totalGrossIncome').textContent = `$${totalGrossIncomeValue.toFixed(2)}`;
+
+            // --- 2. Temel Operasyonel Analiz ---
+
+            // 2.1 Branch Sales (Pie Chart)
+            const branchSales = data.reduce((acc, row) => {
+                acc[row.Branch] = (acc[row.Branch] || 0) + row.Total;
+                return acc;
+            }, {});
+            renderPieChart('branchSalesChart', 'Şube Bazında Satışlar', Object.keys(branchSales), Object.values(branchSales));
+
+            // 2.2 City Sales (Bar Chart)
+            const citySales = data.reduce((acc, row) => {
+                acc[row.City] = (acc[row.City] || 0) + row.Total;
+                return acc;
+            }, {});
+            renderBarChart('citySalesChart', 'Toplam Satış (USD)', Object.keys(citySales), Object.values(citySales), 'rgba(245, 158, 11, 0.8)'); // Yellow
+
+            // 2.3 Payment Method (Bar Chart)
+            const paymentCounts = data.reduce((acc, row) => {
+                acc[row.Payment] = (acc[row.Payment] || 0) + 1;
+                return acc;
+            }, {});
+            renderBarChart('paymentMethodChart', 'İşlem Sayısı', Object.keys(paymentCounts), Object.values(paymentCounts), 'rgba(37, 99, 235, 0.8)'); // Blue
+            
+            // 2.4 Sales by Hour (Line Chart)
+            const salesByHour = Array(24).fill(0); 
+            data.forEach(row => {
+                try {
+                    const hour = parseInt(row.Time.split(':')[0], 10);
+                    if (hour >= 0 && hour < 24) salesByHour[hour] += row.Total;
+                } catch (e) { /* silent fail */ }
+            });
+            const hourLabels = Array.from({ length: 24 }, (_, i) => `${i}:00`);
+            renderLineChart('salesByHourChart', 'Toplam Satış (USD)', hourLabels, salesByHour);
+
+
+            // --- 3. Müşteri ve Demografik Analiz ---
+
+            // 3.1 Customer Type Sales (Bar Chart)
+            const customerTypeSales = data.reduce((acc, row) => {
+                acc[row['Customer type']] = (acc[row['Customer type']] || 0) + row.Total;
+                return acc;
+            }, {});
+            renderBarChart('customerTypeSalesChart', 'Toplam Satış (USD)', Object.keys(customerTypeSales), Object.values(customerTypeSales), 'rgba(124, 58, 237, 0.8)'); // Violet
+
+            // 3.2 Gender Sales (Bar Chart)
+            const genderSales = data.reduce((acc, row) => {
+                acc[row.Gender] = (acc[row.Gender] || 0) + row.Total;
+                return acc;
+            }, {});
+            renderBarChart('genderSalesChart', 'Toplam Satış (USD)', Object.keys(genderSales), Object.values(genderSales), 'rgba(239, 68, 68, 0.8)'); // Red
+
+            // 3.3 Rating Distribution (Bar Chart - Histogram style)
+            const ratingCounts = data.reduce((acc, row) => {
+                const rating = Math.round(row.Rating); // Tamsayıya yuvarla
+                acc[rating] = (acc[rating] || 0) + 1;
+                return acc;
+            }, {});
+            const ratingLabels = Array.from({length: 10}, (_, i) => (i + 1).toString()).filter(r => ratingCounts[r]);
+            const ratingData = ratingLabels.map(r => ratingCounts[r]);
+            renderBarChart('ratingDistributionChart', 'İşlem Sayısı', ratingLabels, ratingData, 'rgba(16, 185, 129, 0.8)'); // Green
+
+
+            // --- 4. Zaman Serisi ve Korelasyon Analizi ---
+
+            // 4.1 Daily Sales Trend (Line Chart)
+            const dailySales = data.reduce((acc, row) => {
+                acc[row.Date] = (acc[row.Date] || 0) + row.Total;
+                return acc;
+            }, {});
+
+            const sortedDates = Object.keys(dailySales).sort((a, b) => new Date(a) - new Date(b));
+            const dailyData = sortedDates.map(date => dailySales[date]);
+            renderLineChart('dailySalesTrendChart', 'Toplam Satış (USD)', sortedDates, dailyData);
+
+            // 4.2 Price vs Quantity Scatter (Scatter Chart)
+            const scatterData = data.map(row => ({
+                x: row['Unit price'],
+                y: row.Quantity,
+                total: row.Total // Total for size/color
+            }));
+            renderScatterChart('priceQuantityScatterChart', scatterData);
+
+            // --- 5. Detaylı Ürün Performansı Tablosu ---
+            renderProductTable(data);
+
+
+            // Hide loading and show dashboard
+            document.getElementById('loading').classList.add('hidden');
+            document.getElementById('dashboard').classList.remove('hidden');
+        }
+
+        // --- Chart.js Helpers ---
+
+        const colorPalette = [
+            'rgba(79, 70, 229, 0.8)', // Indigo
+            'rgba(16, 185, 129, 0.8)', // Green
+            'rgba(245, 158, 11, 0.8)', // Yellow
+            'rgba(239, 68, 68, 0.8)', // Red
+            'rgba(37, 99, 235, 0.8)', // Blue
+            'rgba(168, 85, 247, 0.8)', // Violet
+        ];
+
+        function renderPieChart(canvasId, title, labels, data) {
+            const ctx = document.getElementById(canvasId).getContext('2d');
+            new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: title,
+                        data: data,
+                        backgroundColor: colorPalette.slice(0, labels.length),
+                        borderColor: '#ffffff',
+                        borderWidth: 2,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'right' },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const value = context.parsed;
+                                    const percentage = ((value / total) * 100).toFixed(2);
+                                    return `${context.label}: $${value.toFixed(2)} (${percentage}%)`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function renderBarChart(canvasId, yAxisTitle, labels, data, color) {
+            const ctx = document.getElementById(canvasId).getContext('2d');
+            
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: yAxisTitle,
+                        data: data,
+                        backgroundColor: color,
+                        borderColor: color.replace('0.8', '1'),
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: { display: true, text: yAxisTitle },
+                             ticks: {
+                                callback: function(value, index, ticks) {
+                                    return (canvasId.includes('paymentMethodChart') || canvasId.includes('ratingDistributionChart')) 
+                                           ? value.toFixed(0) : '$' + value.toFixed(0);
+                                }
+                            }
+                        },
+                        x: {
+                            title: { display: true, text: 'Kategori' }
+                        }
+                    }
+                }
+            });
+        }
+
+        function renderLineChart(canvasId, title, labels, data) {
+            const ctx = document.getElementById(canvasId).getContext('2d');
+            
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: title,
+                        data: data,
+                        borderColor: 'rgba(16, 185, 129, 1)',
+                        backgroundColor: 'rgba(16, 185, 129, 0.2)',
+                        tension: 0.3,
+                        pointRadius: 3,
+                        fill: true,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: { display: true, text: title }
+                        },
+                        x: {
+                            title: { display: true, text: canvasId === 'salesByHourChart' ? 'Saat Dilimi' : 'Tarih' }
+                        }
+                    }
+                }
+            });
+        }
+
+        function renderScatterChart(canvasId, scatterData) {
+            const ctx = document.getElementById(canvasId).getContext('2d');
+
+            new Chart(ctx, {
+                type: 'scatter',
+                data: {
+                    datasets: [{
+                        label: 'Satış İşlemi',
+                        data: scatterData,
+                        backgroundColor: 'rgba(79, 70, 229, 0.5)', // Indigo
+                        pointRadius: 5,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: {
+                            type: 'linear',
+                            position: 'bottom',
+                            title: { display: true, text: 'Birim Fiyat (USD)' }
+                        },
+                        y: {
+                            title: { display: true, text: 'Miktar (Adet)' }
+                        }
+                    }
+                }
+            });
+        }
+
+        // --- Table Rendering and Sorting ---
+        let currentTableData = [];
+        let sortColumn = 1; // Default to Total Sales
+        let sortDirection = 'desc';
+
+        function renderProductTable(data) {
+            const productAggregates = data.reduce((acc, row) => {
+                const productLine = row['Product line'];
+                if (!acc[productLine]) {
+                    acc[productLine] = {
+                        totalSales: 0,
+                        grossIncome: 0,
+                        quantity: 0,
+                        totalRating: 0,
+                        count: 0
+                    };
+                }
+                acc[productLine].totalSales += row.Total;
+                acc[productLine].grossIncome += row['gross income'];
+                acc[productLine].quantity += row.Quantity;
+                acc[productLine].totalRating += row.Rating;
+                acc[productLine].count += 1;
+                return acc;
+            }, {});
+
+            currentTableData = Object.keys(productAggregates).map(key => ({
+                productLine: key,
+                totalSales: productAggregates[key].totalSales,
+                grossIncome: productAggregates[key].grossIncome,
+                quantity: productAggregates[key].quantity,
+                avgRating: productAggregates[key].totalRating / productAggregates[key].count
+            }));
+
+            // Initial render: sort by Total Sales (descending)
+            currentTableData.sort((a, b) => b.totalSales - a.totalSales);
+            updateTableBody();
+        }
+
+        function updateTableBody() {
+            const tableBody = document.getElementById('productTableBody');
+            tableBody.innerHTML = ''; // Clear previous content
+
+            currentTableData.forEach(item => {
+                const row = tableBody.insertRow();
+                row.className = 'hover:bg-gray-50';
+                
+                row.insertCell(0).textContent = item.productLine;
+                row.insertCell(1).textContent = `$${item.totalSales.toFixed(2)}`;
+                row.insertCell(2).textContent = `$${item.grossIncome.toFixed(2)}`;
+                row.insertCell(3).textContent = item.quantity.toFixed(0);
+                row.insertCell(4).textContent = item.avgRating.toFixed(2);
+            });
+        }
+
+        window.sortTable = function(columnIndex) {
+            const isNumeric = [1, 2, 3, 4].includes(columnIndex);
+            const propertyMap = ['productLine', 'totalSales', 'grossIncome', 'quantity', 'avgRating'];
+            const key = propertyMap[columnIndex];
+
+            if (sortColumn === columnIndex) {
+                sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+            } else {
+                sortColumn = columnIndex;
+                sortDirection = 'desc'; // Default sort for new column
+            }
+
+            currentTableData.sort((a, b) => {
+                let comparison = 0;
+                if (isNumeric) {
+                    comparison = a[key] - b[key];
+                } else {
+                    comparison = a[key].localeCompare(b[key], 'tr', { sensitivity: 'base' });
+                }
+                return sortDirection === 'asc' ? comparison : comparison * -1;
+            });
+
+            updateTableBody();
+        }
+
+
+        // --- Main Execution ---
+        window.onload = function() {
+            try {
+                const parsedData = parseCSV(fileContent);
+                if (parsedData.length === 0) {
+                    throw new Error("CSV verisi okunamadı veya boş.");
+                }
+                analyzeAndRender(parsedData);
+            } catch (error) {
+                console.error("Veri işlenirken bir hata oluştu:", error);
+                document.getElementById('loading').innerHTML = `
+                    <div class="text-red-600">
+                        Hata: Veri analizi sırasında bir sorun oluştu. Detaylar konsolda.
+                    </div>
+                `;
+            }
+        };
+
+    </script>
+</body>
+</html>
